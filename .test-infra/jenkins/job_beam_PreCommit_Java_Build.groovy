@@ -96,10 +96,7 @@ mavenJob('beam_PreCommit_Java_Build') {
       pattern('sdks/**/*')
       pattern('target/**/*')
       pattern('pom.xml')
-      exclude('examples/**/*.jar')
-      exclude('runners/**/*.jar')
-      exclude('sdks/**/*.jar')
-      exclude('target/**/*.jar')
+      exclude('examples/**/*.jar,runners/**/*.jar,sdks/**/*.jar,target/**/*.jar')
       onlyIfSuccessful()
       defaultExcludes()
     }
