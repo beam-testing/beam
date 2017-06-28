@@ -65,7 +65,7 @@ mavenJob('beam_PreCommit_Java_UnitTest') {
   preBuildSteps {
     copyArtifacts("beam_PreCommit_Java_Build") {
       buildSelector {
-        buildNumber("${buildNum}")
+        buildNumber('${buildNum}')
       }
     }
   }
