@@ -4,7 +4,7 @@ import hudson.model.Result
 try {
     def compileBuildNum = -1
     stage('Build') {
-        compileBuild = build job: 'beam_PreCommit_Build', parameters: [string(name: 'prNum', value: "${ghprbPullId}")]
+        compileBuild = build job: 'beam_PreCommit_Build', parameters: [string(name: 'sha1', value: "origin/pr/${ghprbPullId}/head"), string(name: 'prNum', value: "${ghprbPullId}")]
         if(compileBuild.getResult() == Result.SUCCESS.toString()) {
             compileBuildNum = "" + compileBuild.getNumber()
         }
