@@ -19,7 +19,7 @@
 
 // This is the Java precommit which runs a maven install, and the current set
 // of precommit tests.
-mavenJob('beam_PreCommit_Pipeline') {
+pipelineJob('beam_PreCommit_Pipeline') {
   description('PreCommit Pipeline Job. Owns overall lifecycle of PreCommit tests.')
 
   properties {
