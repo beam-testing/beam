@@ -1,3 +1,4 @@
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -16,54 +17,74 @@
  * limitations under the License.
  */
 
-// import common_job_properties
-
 // This is the Java precommit which runs a maven install, and the current set
 // of precommit tests.
-pipelineJob('beam_PreCommit_Pipeline') {
-  description('Top-level precommit job. Controls sub-jobs and publishes status to GitHub.')
+mavenJob('beam_PreCommit_Pipeline') {
+  description('PreCommit Pipeline Job. Owns overall lifecycle of PreCommit tests.')
 
-  // Execute concurrent builds if necessary.
-  concurrentBuild()
   properties {
     githubProjectUrl('https://github.com/beam-testing/beam/')
   }
+
   parameters {
-    // This is a recommended setup if you want to run the job manually. The
-    // ${sha1} parameter needs to be provided, and defaults to the main branch.
     stringParam(
-        'sha1',
-        'pipeline',
-        'Commit id or refname (eg: origin/pr/9/head) you want to build.')
+      'sha1',
+      'master',
+      'Commit id or refname (e.g. origin/pr/9/head) you want to build.')
   }
+  
+  wrappers {
+    timeout {
+      absolute(120)
+      abortBuild()
+    }
+  }  
+  
+  // Restrict this project to run only on Jenkins executors as specified
+  label('beam')
+
+  // Execute concurrent builds if necessary.
+  concurrentBuild()
+
+
   triggers {
     githubPullRequest {
-      useGithubHooks()
+      admins(['asfbot'])
+      useGitHubHooks()
+      orgWhitelist(['apache'])
+      allowMembersOfWhitelistedOrgsAsAdmin()
       permitAll()
+      displayBuildErrorsOnDownstreamBuilds()
+      extensions {
+        commitStatus {
+          context("Jenkins: PreCommit Pipeline")
+        }
+        buildStatus {
+          completedStatus('SUCCESS', '--none--')
+          completedStatus('FAILURE', '--none--')
+          completedStatus('ERROR', '--none--')
+        }
+      }
     }
   }
-  // Set common parameters.
-  //common_job_properties.setTopLevelMainJobProperties(
-  //  delegate,
-  //  'master',
-  //  120)
-
-  // Sets that this is a PreCommit job.
-  // common_job_properties.setPreCommit(delegate, 'Jenkins PR Verification')
 
   definition {
     cpsScm {
+      // Source code management.
       scm {
         git {
           remote {
-            github('beam-testing/beam')
+            github("beam-testing/beam")
             refspec('+refs/heads/*:refs/remotes/origin/* ' +
-                    '+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
+                    '+refs/pull/*:refs/remotes/origin/pr/*')
           }
           branch('${sha1}')
+          extensions {
+            cleanAfterCheckout()
+          }
         }
       }
-      scriptPath('.test-infra/jenkins/precommit_pipeline.groovy')
+      scriptPath('.test-infra/jenkins/Precommit_Pipeline.groovy')
     }
   }
 }

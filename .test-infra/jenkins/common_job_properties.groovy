@@ -34,9 +34,9 @@ class common_job_properties {
 
   // Sets common top-level job properties for main repository jobs.
   static void setTopLevelMainJobProperties(context,
-                                           String branch = 'pipeline',
+                                           String branch = 'master',
                                            int timeout = 100,
-                                           String jenkinsExecutorLabel = 'master') {
+                                           String jenkinsExecutorLabel = 'beam') {
     setTopLevelJobProperties(
             context,
             'beam',
@@ -73,7 +73,7 @@ class common_job_properties {
     context.scm {
       git {
         remote {
-          url('https://github.com/beam-testing/' + repositoryName + '.git')
+          github("apache/${repositoryName}")
           refspec('+refs/heads/*:refs/remotes/origin/* ' +
                   '+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
         }
@@ -104,9 +104,6 @@ class common_job_properties {
       environmentVariables {
         env('SPARK_LOCAL_IP', '127.0.0.1')
       }
-      // credentialsBinding {
-      //   string("COVERALLS_REPO_TOKEN", "beam-coveralls-token")
-      // }
     }
   }
 
@@ -222,7 +219,7 @@ class common_job_properties {
                             boolean emailIndividuals = true) {
     // Set build triggers
     // context.triggers {
-      // By default runs every 6 hours.
+    //   // By default runs every 6 hours.
     //   cron(buildSchedule)
     //   if (triggerEveryPush) {
     //     githubPush()
@@ -230,8 +227,8 @@ class common_job_properties {
     // }
 
     // context.publishers {
-      // Notify an email address for each failed build (defaults to commits@).
-      // mailer(notifyAddress, false, emailIndividuals)
+    //   // Notify an email address for each failed build (defaults to commits@).
+    //   mailer(notifyAddress, false, emailIndividuals)
     // }
   }
 
