@@ -1,15 +1,16 @@
 #!groovy
 import hudson.model.Result
 
-// PR_SHA = "origin/pr/${ghprbPullId}/head"
-
 try {
+    def compileBuildNum = -1
     stage('Build') {
-        compileBuild = build job: 'mb-merge-1' // , parameters: [string(name: 'sha1', value: PR_SHA)]
+        compileBuild = build job: 'beam_PreCommit_Build', parameters: [string(name: 'prNum', value: "${ghprbPullId}")]
         if(compileBuild.getResult() == Result.SUCCESS.toString()) {
-            echo "" + compileBuild.getNumber()
-            echo compileBuild.getBuildVariables().get("BUILD_NUM")
+            compileBuildNum = "" + compileBuild.getNumber()
         }
+    }
+    stage('Test') {
+        testBuild = build job: 'beam_PreCommit_Test', parameters: [string(name: 'buildNum', value: compileBuildNum)]
     }
 } catch (Exception e) {
     echo e.toString()
