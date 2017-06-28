@@ -84,7 +84,7 @@ pipelineJob('beam_PreCommit_Pipeline') {
           }
         }
       }
-      scriptPath('.test-infra/jenkins/Precommit_Pipeline.groovy')
+      scriptPath('.test-infra/jenkins/PreCommit_Pipeline.groovy')
     }
   }
 }
