@@ -26,7 +26,7 @@ try {
         parallel (
             java_unit: {
                 if(javaBuildNum != -1) {
-                    def javaTest = build job: 'beam_PreCommit_Java_UnitTest', parameters: [string(name: 'buildNum', value: javaBuildNum)]
+                    def javaTest = build job: 'beam_PreCommit_Java_UnitTest', parameters: [string(name: 'buildNum', value: "${javaBuildNum}")]
                     if(javaTest.getResult() == Result.SUCCESS.toString()) {
                         javaUnitPassed = true
                     }
