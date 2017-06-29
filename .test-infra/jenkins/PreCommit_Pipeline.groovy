@@ -31,7 +31,12 @@ try {
         parallel (
             java_unit: {
                 if(javaBuildNum != -1) {
-                    def javaTest = build job: 'beam_PreCommit_Java_UnitTest', parameters: [string(name: 'buildNum', value: "${javaBuildNum}")]
+                    def javaTest = build job: 'beam_PreCommit_Java_UnitTest', parameters: [
+		        string(name: 'buildNum', value: "${javaBuildNum}"),
+		        string(name: 'ghprbGhRepository', value: "${ghprbGhRepository}"),
+		        string(name: 'ghprbActualCommit', value: "${ghprbActualCommit}"),
+		        string(name: 'ghprbPullId', value: "${ghprbPullId}")
+		    ]
                     if(javaTest.getResult() == Result.SUCCESS.toString()) {
                         javaUnitPassed = true
                     }
