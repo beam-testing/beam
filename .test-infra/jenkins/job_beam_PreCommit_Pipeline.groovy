@@ -32,14 +32,14 @@ pipelineJob('beam_PreCommit_Pipeline') {
       'master',
       'Commit id or refname (e.g. origin/pr/9/head) you want to build.')
   }
-  
+
   wrappers {
     timeout {
       absolute(120)
       abortBuild()
     }
-  }  
-  
+  }
+
   // Restrict this project to run only on Jenkins executors as specified
   label('beam')
 
