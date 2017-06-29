@@ -50,6 +50,7 @@ pipelineJob('beam_PreCommit_Pipeline') {
   // common_job_properties.setPreCommit(delegate, 'item')
   triggers {
     githubPush()
+    cron('0 */6 * * *')
     githubPullRequest {
       useGitHubHooks()
     }
