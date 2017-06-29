@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 
+import common_job_properties
+
 // This is the Java precommit which runs a maven install, and the current set
 // of precommit tests.
 pipelineJob('beam_PreCommit_Pipeline') {
@@ -45,27 +47,28 @@ pipelineJob('beam_PreCommit_Pipeline') {
 
   // Execute concurrent builds if necessary.
   concurrentBuild()
+  common_job_properties.setPreCommit(delegate, 'item')
 
-  triggers {
-    githubPullRequest {
-      admins(['asfbot'])
-      useGitHubHooks()
-      orgWhitelist(['apache'])
-      allowMembersOfWhitelistedOrgsAsAdmin()
-      permitAll()
-      displayBuildErrorsOnDownstreamBuilds()
-      extensions {
-        commitStatus {
-          context("Jenkins: PreCommit Pipeline")
-        }
-        buildStatus {
-          completedStatus('SUCCESS', '--none--')
-          completedStatus('FAILURE', '--none--')
-          completedStatus('ERROR', '--none--')
-        }
-      }
-    }
-  }
+//   triggers {
+//     githubPullRequest {
+//       admins(['asfbot'])
+//       useGitHubHooks()
+//       orgWhitelist(['apache'])
+//       allowMembersOfWhitelistedOrgsAsAdmin()
+//       permitAll()
+//       displayBuildErrorsOnDownstreamBuilds()
+//       extensions {
+//         commitStatus {
+//           context("Jenkins: PreCommit Pipeline")
+//         }
+//         buildStatus {
+//           completedStatus('SUCCESS', '--none--')
+//           completedStatus('FAILURE', '--none--')
+//           completedStatus('ERROR', '--none--')
+//         }
+//       }
+//     }
+//   }
 
   definition {
     cpsScm {

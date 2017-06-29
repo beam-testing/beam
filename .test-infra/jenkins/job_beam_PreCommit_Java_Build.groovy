@@ -33,26 +33,6 @@ mavenJob('beam_PreCommit_Java_Build') {
     }
   }
 
-  triggers {
-    githubPullRequest {
-      admins(['asfbot'])
-      useGitHubHooks()
-      orgWhitelist(['apache'])
-      allowMembersOfWhitelistedOrgsAsAdmin()
-      permitAll()
-      displayBuildErrorsOnDownstreamBuilds()
-      extensions {
-        commitStatus {
-          context("Jenkins: PreCommit Pipeline")
-        }
-        buildStatus {
-          completedStatus('SUCCESS', '--none--')
-          completedStatus('FAILURE', '--none--')
-          completedStatus('ERROR', '--none--')
-        }
-      }
-    }
-  }
   parameters {
     stringParam(
       'sha1',
@@ -76,6 +56,15 @@ mavenJob('beam_PreCommit_Java_Build') {
     timeout {
       absolute(15)
       abortBuild()
+    }
+    downstreamCommitStatus {
+      context('Jenkins: Java Build')
+      triggeredStatus("Java Build Pending")
+      startedStatus("Running Java Build")
+      statusUrl()
+      completedStatus('SUCCESS', "Java Build Passed")
+      completedStatus('FAILURE', "Some Java Build Failed")
+      completedStatus('ERROR', "Error Executing Java Build")
     }
   }
 
