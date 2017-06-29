@@ -46,7 +46,6 @@ pipelineJob('beam_PreCommit_Pipeline') {
   // Execute concurrent builds if necessary.
   concurrentBuild()
 
-
   triggers {
     githubPullRequest {
       admins(['asfbot'])
