@@ -47,7 +47,11 @@ pipelineJob('beam_PreCommit_Pipeline') {
 
   // Execute concurrent builds if necessary.
   concurrentBuild()
-  common_job_properties.setPreCommit(delegate, 'item')
+  // common_job_properties.setPreCommit(delegate, 'item')
+  triggers {
+    githubPush()
+    githubPullRequest()
+  }
 
 //   triggers {
 //     githubPullRequest {
