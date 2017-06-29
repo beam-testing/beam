@@ -73,7 +73,7 @@ class common_job_properties {
     context.scm {
       git {
         remote {
-          github("apache/${repositoryName}")
+          github("beam-testing/${repositoryName}")
           refspec('+refs/heads/*:refs/remotes/origin/* ' +
                   '+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
         }
