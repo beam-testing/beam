@@ -28,11 +28,23 @@ mavenJob('beam_PreCommit_Java_UnitTest') {
       'buildNum',
       'N/A',
       'Build number of beam_PreCommit_Java_Build to copy from.')
+    stringParam(
+      'ghprbGhRepository',
+      'N/A',
+      'Repository name for use by ghprb plugin.')
+    stringParam(
+      'ghprbActualCommit',
+      'N/A',
+      'Commit ID for use by ghprb plugin.')
+    stringParam(
+      'ghprbPullId',
+      'N/A',
+      'PR # for use by ghprb plugin.')
   }
-  
+
   // Set JDK version.
   jdk('JDK 1.8 (latest)')
-  
+
   // Restrict this project to run only on Jenkins executors as specified
   label('beam')
 

@@ -38,8 +38,20 @@ mavenJob('beam_PreCommit_Java_Build') {
       'sha1',
       'master',
       'Commit id or refname (e.g. origin/pr/9/head) you want to build.')
+    stringParam(
+      'ghprbGhRepository',
+      'N/A',
+      'Repository name for use by ghprb plugin.')
+    stringParam(
+      'ghprbActualCommit',
+      'N/A',
+      'Commit ID for use by ghprb plugin.')
+    stringParam(
+      'ghprbPullId',
+      'N/A',
+      'PR # for use by ghprb plugin.')
   }
-  
+
   wrappers {
     timeout {
       absolute(15)
@@ -54,11 +66,11 @@ mavenJob('beam_PreCommit_Java_Build') {
       completedStatus('FAILURE', "Some Java Build Failed")
       completedStatus('ERROR', "Error Executing Java Build")
     }
-  }  
+  }
 
   // Set JDK version.
   jdk('JDK 1.8 (latest)')
-  
+
   // Restrict this project to run only on Jenkins executors as specified
   label('beam')
 
