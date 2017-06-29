@@ -7,7 +7,12 @@ try {
     stage('Build') {
         parallel (
             java: {
-                def javaBuild = build job: 'beam_PreCommit_Java_Build', parameters: [string(name: 'sha1', value: "origin/pr/${ghprbPullId}/head")]
+                def javaBuild = build job: 'beam_PreCommit_Java_Build', parameters: [
+		    string(name: 'sha1', value: "origin/pr/${ghprbPullId}/head")
+		    string(name: 'ghprbGhRepository', value: "${ghprbGhRepository}")
+		    string(name: 'ghprbActualCommit', value: "${ghprbActualCommit}")
+		    string(name: 'ghprbPullId', value: "${ghprbPullId}")
+		]
                 if(javaBuild.getResult() == Result.SUCCESS.toString()) {
                     javaBuildNum = javaBuild.getNumber()
                 }
