@@ -48,9 +48,22 @@ pipelineJob('beam_PreCommit_Pipeline') {
 
   triggers {
     githubPullRequest {
+      admins(['asfbot'])
       useGitHubHooks()
+      orgWhitelist(['apache'])
+      allowMembersOfWhitelistedOrgsAsAdmin()
       permitAll()
       displayBuildErrorsOnDownstreamBuilds()
+      extensions {
+        commitStatus {
+          context("Jenkins: PreCommit Pipeline")
+        }
+        buildStatus {
+          completedStatus('SUCCESS', '--none--')
+          completedStatus('FAILURE', '--none--')
+          completedStatus('ERROR', '--none--')
+        }
+      }
     }
   }
 
