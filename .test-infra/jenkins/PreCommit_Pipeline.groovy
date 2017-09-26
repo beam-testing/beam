@@ -49,7 +49,11 @@ stage('Build') {
             }
         },
         python_unit: { // Python doesn't have a build phase, so we include this here.
-            build job: 'beam_Python_UnitTest', parameters: commitArg + ghprbArgs
+            try {
+                def pyBuild = build job: 'beam_Python_UnitTest', parameters: commitArg + ghprbArgs
+            } catch(Exception e) {
+                echo "python build failed"
+            }
         }
     )
 }
