@@ -27,7 +27,7 @@ class common_job_properties {
       git {
         remote {
           // Double quotes here mean ${repositoryName} is interpolated.
-          github("apache/${repositoryName}")
+          github("beam-testing/${repositoryName}")
           // Single quotes here mean that ${ghprbPullId} is not interpolated and instead passed
           // through to Jenkins where it refers to the environment variable.
           refspec('+refs/heads/*:refs/remotes/origin/* ' +
@@ -75,7 +75,7 @@ class common_job_properties {
 
     // GitHub project.
     context.properties {
-      githubProjectUrl('https://github.com/apache/' + repositoryName + '/')
+      githubProjectUrl('https://github.com/beam-testing/' + repositoryName + '/')
     }
 
     // Set JDK version.
@@ -126,10 +126,10 @@ class common_job_properties {
                                                  String prTriggerPhrase = '') {
     context.triggers {
       githubPullRequest {
-        admins(['asfbot'])
+        //admins(['asfbot'])
         useGitHubHooks()
-        orgWhitelist(['apache'])
-        allowMembersOfWhitelistedOrgsAsAdmin()
+        //orgWhitelist(['apache'])
+        //allowMembersOfWhitelistedOrgsAsAdmin()
         permitAll()
         // prTriggerPhrase is the argument which gets set when we want to allow
         // post-commit builds to run against pending pull requests. This block
@@ -290,7 +290,7 @@ class common_job_properties {
     context.jdk('JDK 1.8 (latest)')
 
     // Restrict this project to run only on Jenkins executors as specified
-    context.label('beam')
+    // context.label('beam')
 
     // Execute concurrent builds if necessary.
     context.concurrentBuild()
@@ -300,9 +300,9 @@ class common_job_properties {
         absolute(jobTimeout)
         abortBuild()
       }
-      credentialsBinding {
-        string("COVERALLS_REPO_TOKEN", "beam-coveralls-token")
-      }
+      //credentialsBinding {
+      //  string("COVERALLS_REPO_TOKEN", "beam-coveralls-token")
+      //}
       downstreamCommitStatus {
         delegate.context("Jenkins: ${descriptor}")
         triggeredStatus("${descriptor} Pending")
@@ -329,7 +329,7 @@ class common_job_properties {
    */
   static def setPipelineBuildJobProperties(def context) {
     context.properties {
-      githubProjectUrl('https://github.com/apache/beam/')
+      githubProjectUrl('https://github.com/beam-testing/beam/')
     }
 
     context.parameters {

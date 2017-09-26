@@ -52,10 +52,10 @@ pipelineJob('beam_PreCommit_Pipeline') {
 
   triggers {
     githubPullRequest {
-      admins(['asfbot'])
+      // admins(['asfbot'])
       useGitHubHooks()
-      orgWhitelist(['apache'])
-      allowMembersOfWhitelistedOrgsAsAdmin()
+      // orgWhitelist(['apache'])
+      // allowMembersOfWhitelistedOrgsAsAdmin()
       permitAll()
       displayBuildErrorsOnDownstreamBuilds()
       extensions {
