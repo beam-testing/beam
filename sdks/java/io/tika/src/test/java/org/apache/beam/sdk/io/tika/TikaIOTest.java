@@ -71,7 +71,7 @@ public class TikaIOTest {
 
   @Rule
   public TestPipeline p = TestPipeline.create();
-
+/*
   @Test
   public void testReadPdfFile() throws IOException {
 
@@ -79,7 +79,7 @@ public class TikaIOTest {
 
     doTestReadFiles(resourcePath, PDF_FILE);
   }
-
+*/
   @Test
   public void testReadZipPdfFile() throws IOException {
 
